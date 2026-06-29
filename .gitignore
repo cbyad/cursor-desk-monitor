@@ -1,0 +1,23 @@
+node_modules/
+dist/
+.env
+.env.*
+!.env.example
+
+# General
+.DS_Store
+*.code-workspace
+.vscode
+.idea
+
+# Logs
+logs
+*.log
+
+# Bun
+.bun
+bun-cache/
+
+# Typescript
+tsconfig.tsbuildinfo
+.cursor/

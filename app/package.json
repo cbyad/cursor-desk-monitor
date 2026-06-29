@@ -1,0 +1,26 @@
+{
+  "name": "cursor-metrics",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "bun run --watch src/main.ts",
+    "sync:once": "bun run src/main.ts -- --once",
+    "build": "bun build --compile --outfile dist/cursor-metrics src/main.ts",
+    "lint": "bunx --bun biome lint .",
+    "format": "bunx --bun biome format . --write",
+    "check": "bunx --bun biome check .",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@effect/platform": "^0.94.0",
+    "@effect/platform-bun": "^0.87.0",
+    "effect": "^3.19.0"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^2.0.0",
+    "@effect/language-service": "^0.65.0",
+    "@types/bun": "latest",
+    "typescript": "^5.9.0"
+  }
+}
