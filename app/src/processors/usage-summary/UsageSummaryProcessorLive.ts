@@ -4,13 +4,14 @@ import { DecodeError } from '../../domain/errors/DecodeError.ts'
 import type { RawUsage } from '../../domain/models/RawUsage.ts'
 import type { UsageSummary } from '../../domain/models/UsageSummary.ts'
 import { Processor } from '../../domain/ports/Processor.ts'
+import { formatCycleEnd } from '../../shared/Logger.ts'
 
 const centsToUsd = (cents: number): number => cents / 100
 
 const clampPercent = (value: number): number => Math.min(100, Math.max(0, value))
 
 const computePercent = (used: number, limit: number, fallback?: number): number => {
-  if (fallback!==undefined) return clampPercent(fallback)
+  if (fallback !== undefined) return clampPercent(fallback)
   if (limit <= 0) return 0
   return clampPercent((used / limit) * 100)
 }
@@ -37,19 +38,21 @@ const mapRawToSummary = (raw: RawUsage & { billingCycleEnd: string }, paidLimitF
   const paidPercent = computePercent(paidUsedCents, paidLimitCents)
 
   const cycleEndEpoch = new Date(raw.billingCycleEnd).getTime()
+  const daysLeft = computeDaysLeft(cycleEndEpoch)
 
   return {
     schemaVersion: 1,
-    fetchedAt: Date.now(),
+    // fetchedAt: Date.now(),
     includedUsedUsd,
     includedBaseUsd,
     includedPercent,
     paidUsedUsd,
     paidLimitUsd,
     paidPercent,
-    cycleEndEpoch,
-    daysLeft: computeDaysLeft(cycleEndEpoch),
-    status: 'ok'
+    // cycleEndEpoch,
+    // daysLeft,
+    cycleEndText: `Ends ${formatCycleEnd(cycleEndEpoch)} (${daysLeft} days left)`
+    // status: "ok",
   }
 }
 
@@ -61,8 +64,12 @@ export const UsageSummaryProcessorLive = Layer.effect(
 
     const process = (raw: RawUsage) =>
       Effect.gen(function* () {
-        if (!raw.billingCycleEnd) 
-          return yield* Effect.fail(new DecodeError({ message: 'billingCycleEnd is missing from API response' }))
+        if (!raw.billingCycleEnd)
+          return yield* Effect.fail(
+            new DecodeError({
+              message: 'billingCycleEnd is missing from API response'
+            })
+          )
         return mapRawToSummary({ ...raw, billingCycleEnd: raw.billingCycleEnd }, paidLimitFallback)
       })
 

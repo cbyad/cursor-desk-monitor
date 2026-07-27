@@ -21,12 +21,11 @@ export const formatUsageBlocks = (summary: {
   paidUsedUsd: number
   paidLimitUsd: number
   paidPercent: number
-  cycleEndEpoch: number
-  daysLeft: number
+  cycleEndText: string
 }): readonly string[] => [
   'Included Usage',
   `${formatUsd(summary.includedUsedUsd)} / ${formatUsd(summary.includedBaseUsd)} base (${summary.includedPercent.toFixed(0)}%)`,
-  `Ends ${formatCycleEnd(summary.cycleEndEpoch)} (${summary.daysLeft} days left)`,
+  summary.cycleEndText,
   '',
   'Paid Usage',
   `${formatUsd(summary.paidUsedUsd)} / ${formatUsd(summary.paidLimitUsd)} (hard limit) (${summary.paidPercent.toFixed(0)}%)`

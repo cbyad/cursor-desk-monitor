@@ -2,7 +2,7 @@
 
 LVGL **8.3.11** usage dashboard for the Waveshare [ESP32-C6-LCD-1.47](https://www.waveshare.com/wiki/ESP32-C6-LCD-1.47) (172×320 panel, **320×172 landscape** UI).
 
-Phase 1: hardcoded demo metrics on screen. No serial/desktop link yet.
+Phase 2: desktop app pushes metrics over USB serial (115200 baud, newline-delimited JSON). Demo values are shown on boot until the first valid sync line arrives.
 
 ## Prerequisites
 
@@ -36,8 +36,9 @@ Mismatch breaks compile or causes runtime glitches.
 
 ```
 src/
-  main.cpp              # init + demo metrics
+  main.cpp              # init + demo metrics fallback
   display/              # ST7789 + LVGL driver
+  serial/               # USB serial metrics receiver
   ui/                   # SquareLine export (generated — do not edit)
   ui_metrics/           # ui_apply_metrics() — safe to keep across re-exports
 squareline/             # SquareLine .spj + docs
@@ -79,6 +80,7 @@ Keep widget names unchanged (see [squareline/README.md](squareline/README.md)). 
 
 ## Troubleshooting
 
+- **Blank screen / no serial output:** this board uses native USB — PlatformIO must enable USB CDC (`ARDUINO_USB_CDC_ON_BOOT=1` in `platformio.ini`). Rebuild and re-flash after changing that flag. Close any serial monitor before `sync:serial`.
 - **Blank screen:** check backlight (GPIO 22), try `setRotation(0..3)` in `display_st7789.cpp` (landscape uses `1`; use `3` if upside-down)
 - **Wrong colors:** `invertDisplay(true)` is enabled for this panel
 - **Build errors after SquareLine export:** LVGL version or `ui.h` include path
