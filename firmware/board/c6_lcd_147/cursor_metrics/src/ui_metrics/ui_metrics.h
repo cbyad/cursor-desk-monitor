@@ -14,6 +14,7 @@ typedef struct {
   const char *cycle_end_text;
 } metrics_view_t;
 
+void ui_apply_theme(void);
 void ui_apply_metrics(const metrics_view_t *metrics);
 
 #ifdef __cplusplus

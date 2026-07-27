@@ -39,8 +39,8 @@ bool display_init(void) {
     PIN_LCD_RST,
     0,
     true,
-    LCD_WIDTH,
-    LCD_HEIGHT,
+    PANEL_WIDTH,
+    PANEL_HEIGHT,
     34,
     0,
     34,
@@ -52,7 +52,7 @@ bool display_init(void) {
     return false;
   }
 
-  gfx->setRotation(2);
+  gfx->setRotation(1);
   gfx->invertDisplay(true);
   gfx->fillScreen(BLACK);
 
@@ -64,9 +64,11 @@ bool display_init(void) {
   disp_drv.ver_res = LCD_HEIGHT;
   disp_drv.flush_cb = lvgl_flush_cb;
   disp_drv.draw_buf = &draw_buf;
-  lv_disp_drv_register(&disp_drv);
+  lv_disp_t *disp = lv_disp_drv_register(&disp_drv);
+  lv_disp_set_bg_color(disp, disp_color(0x1A1A1A));
+  lv_disp_set_bg_opa(disp, LV_OPA_COVER);
 
-  Serial.println("display: LVGL ready");
+  Serial.println("display: LVGL ready (320x172 landscape)");
   return true;
 }
 

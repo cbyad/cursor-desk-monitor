@@ -2,7 +2,19 @@
 
 #include <cstdio>
 
+#include "display/display.h"
 #include "ui/ui.h"
+#include "ui/ui_Screen.h"
+
+void ui_apply_theme(void) {
+  if (ui_Screen == nullptr) {
+    return;
+  }
+
+  lv_obj_set_style_bg_color(ui_Screen, disp_color(0x1A1A1A), LV_PART_MAIN | LV_STATE_DEFAULT);
+  lv_obj_set_style_bg_opa(ui_Screen, LV_OPA_COVER, LV_PART_MAIN | LV_STATE_DEFAULT);
+  lv_obj_set_style_border_width(ui_Screen, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
+}
 
 void ui_apply_metrics(const metrics_view_t *m) {
   if (m == nullptr) {

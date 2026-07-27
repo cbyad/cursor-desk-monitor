@@ -1,6 +1,6 @@
 # Cursor Metrics — ESP32-C6-LCD-1.47
 
-LVGL **8.3.11** usage dashboard for the Waveshare [ESP32-C6-LCD-1.47](https://www.waveshare.com/wiki/ESP32-C6-LCD-1.47) (172×320, ST7789).
+LVGL **8.3.11** usage dashboard for the Waveshare [ESP32-C6-LCD-1.47](https://www.waveshare.com/wiki/ESP32-C6-LCD-1.47) (172×320 panel, **320×172 landscape** UI).
 
 Phase 1: hardcoded demo metrics on screen. No serial/desktop link yet.
 
@@ -79,6 +79,6 @@ Keep widget names unchanged (see [squareline/README.md](squareline/README.md)). 
 
 ## Troubleshooting
 
-- **Blank screen:** check backlight (GPIO 22), try `setRotation(0..3)` in `display_st7789.cpp`
+- **Blank screen:** check backlight (GPIO 22), try `setRotation(0..3)` in `display_st7789.cpp` (landscape uses `1`; use `3` if upside-down)
 - **Wrong colors:** `invertDisplay(true)` is enabled for this panel
 - **Build errors after SquareLine export:** LVGL version or `ui.h` include path

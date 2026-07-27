@@ -20,7 +20,7 @@ Exported C globals are prefixed with `ui_` (e.g. object `includedTitleLabel` →
 
 | Setting | Value |
 |---------|--------|
-| Resolution | **172 × 320** (portrait) |
+| Resolution | **320 × 172** (landscape) |
 | Color depth | **16 bit** |
 | LVGL version | **8.3.11** (must match `platformio.ini`) |
 | Board template | Arduino / ESP32 |

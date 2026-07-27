@@ -2,136 +2,118 @@
 // SquareLine Studio version: SquareLine Studio 1.6.1
 // LVGL version: 8.3.11
 // Project name: cursor_metrics
+// Layout adjusted for 320x172 landscape + dark background
 
 #include "ui.h"
+#include "../display/display.h"
 
-lv_obj_t *ui_Screen = NULL;lv_obj_t *ui_includedTitleLabel = NULL;lv_obj_t *ui_includedUsageBar = NULL;lv_obj_t *ui_includedAmountLabel = NULL;lv_obj_t *ui_includedCycleLabel = NULL;lv_obj_t *ui_paidTitleLabel = NULL;lv_obj_t *ui_paidUsageBar = NULL;lv_obj_t *ui_paidAmountLabel = NULL;
-// event funtions
+lv_obj_t *ui_Screen = NULL;
+lv_obj_t *ui_includedTitleLabel = NULL;
+lv_obj_t *ui_includedUsageBar = NULL;
+lv_obj_t *ui_includedAmountLabel = NULL;
+lv_obj_t *ui_includedCycleLabel = NULL;
+lv_obj_t *ui_paidTitleLabel = NULL;
+lv_obj_t *ui_paidUsageBar = NULL;
+lv_obj_t *ui_paidAmountLabel = NULL;
 
-// build funtions
-
-void ui_Screen_screen_init(void)
-{
-ui_Screen = lv_obj_create(NULL);
-lv_obj_clear_flag( ui_Screen, LV_OBJ_FLAG_SCROLLABLE );    /// Flags
-lv_obj_set_flex_flow(ui_Screen,LV_FLEX_FLOW_COLUMN);
-lv_obj_set_flex_align(ui_Screen, LV_FLEX_ALIGN_START, LV_FLEX_ALIGN_START, LV_FLEX_ALIGN_START);
-lv_obj_set_style_pad_left(ui_Screen, 5, LV_PART_MAIN| LV_STATE_DEFAULT);
-lv_obj_set_style_pad_right(ui_Screen, 0, LV_PART_MAIN| LV_STATE_DEFAULT);
-lv_obj_set_style_pad_top(ui_Screen, 0, LV_PART_MAIN| LV_STATE_DEFAULT);
-lv_obj_set_style_pad_bottom(ui_Screen, 0, LV_PART_MAIN| LV_STATE_DEFAULT);
-
-ui_includedTitleLabel = lv_label_create(ui_Screen);
-lv_obj_set_width( ui_includedTitleLabel, LV_SIZE_CONTENT);  /// 1
-lv_obj_set_height( ui_includedTitleLabel, LV_SIZE_CONTENT);   /// 1
-lv_obj_set_x( ui_includedTitleLabel, -97 );
-lv_obj_set_y( ui_includedTitleLabel, -73 );
-lv_obj_set_align( ui_includedTitleLabel, LV_ALIGN_CENTER );
-lv_obj_set_flex_flow(ui_includedTitleLabel,LV_FLEX_FLOW_ROW);
-lv_obj_set_flex_align(ui_includedTitleLabel, LV_FLEX_ALIGN_START, LV_FLEX_ALIGN_START, LV_FLEX_ALIGN_START);
-lv_label_set_text(ui_includedTitleLabel,"Included Usage");
-lv_obj_set_style_text_color(ui_includedTitleLabel, lv_color_hex(0xFFFFFF), LV_PART_MAIN | LV_STATE_DEFAULT );
-lv_obj_set_style_text_opa(ui_includedTitleLabel, 255, LV_PART_MAIN| LV_STATE_DEFAULT);
-lv_obj_set_style_text_font(ui_includedTitleLabel, &lv_font_montserrat_14, LV_PART_MAIN| LV_STATE_DEFAULT);
-
-ui_includedUsageBar = lv_bar_create(ui_Screen);
-lv_bar_set_value(ui_includedUsageBar,25,LV_ANIM_OFF);
-lv_bar_set_start_value(ui_includedUsageBar, 0, LV_ANIM_OFF);
-lv_obj_set_width( ui_includedUsageBar, 305);
-lv_obj_set_height( ui_includedUsageBar, 10);
-lv_obj_set_x( ui_includedUsageBar, 0 );
-lv_obj_set_y( ui_includedUsageBar, -51 );
-lv_obj_set_align( ui_includedUsageBar, LV_ALIGN_CENTER );
-lv_obj_set_flex_flow(ui_includedUsageBar,LV_FLEX_FLOW_ROW);
-lv_obj_set_flex_align(ui_includedUsageBar, LV_FLEX_ALIGN_START, LV_FLEX_ALIGN_START, LV_FLEX_ALIGN_START);
-lv_obj_set_style_bg_color(ui_includedUsageBar, lv_color_hex(0x2A2A2A), LV_PART_MAIN | LV_STATE_DEFAULT );
-lv_obj_set_style_bg_opa(ui_includedUsageBar, 255, LV_PART_MAIN| LV_STATE_DEFAULT);
-
-lv_obj_set_style_bg_color(ui_includedUsageBar, lv_color_hex(0x3B82F6), LV_PART_INDICATOR | LV_STATE_DEFAULT );
-lv_obj_set_style_bg_opa(ui_includedUsageBar, 255, LV_PART_INDICATOR| LV_STATE_DEFAULT);
-
-ui_includedAmountLabel = lv_label_create(ui_Screen);
-lv_obj_set_width( ui_includedAmountLabel, LV_SIZE_CONTENT);  /// 1
-lv_obj_set_height( ui_includedAmountLabel, LV_SIZE_CONTENT);   /// 1
-lv_obj_set_x( ui_includedAmountLabel, -86 );
-lv_obj_set_y( ui_includedAmountLabel, -27 );
-lv_obj_set_align( ui_includedAmountLabel, LV_ALIGN_RIGHT_MID );
-lv_obj_set_flex_flow(ui_includedAmountLabel,LV_FLEX_FLOW_ROW);
-lv_obj_set_flex_align(ui_includedAmountLabel, LV_FLEX_ALIGN_START, LV_FLEX_ALIGN_START, LV_FLEX_ALIGN_START);
-lv_label_set_text(ui_includedAmountLabel,"$100  /  $500 base (14%)");
-lv_obj_set_style_text_color(ui_includedAmountLabel, lv_color_hex(0x808080), LV_PART_MAIN | LV_STATE_DEFAULT );
-lv_obj_set_style_text_opa(ui_includedAmountLabel, 255, LV_PART_MAIN| LV_STATE_DEFAULT);
-lv_obj_set_style_text_font(ui_includedAmountLabel, &lv_font_montserrat_14, LV_PART_MAIN| LV_STATE_DEFAULT);
-
-ui_includedCycleLabel = lv_label_create(ui_Screen);
-lv_obj_set_width( ui_includedCycleLabel, LV_SIZE_CONTENT);  /// 1
-lv_obj_set_height( ui_includedCycleLabel, LV_SIZE_CONTENT);   /// 1
-lv_obj_set_x( ui_includedCycleLabel, -26 );
-lv_obj_set_y( ui_includedCycleLabel, -6 );
-lv_obj_set_align( ui_includedCycleLabel, LV_ALIGN_CENTER );
-lv_obj_set_flex_flow(ui_includedCycleLabel,LV_FLEX_FLOW_ROW);
-lv_obj_set_flex_align(ui_includedCycleLabel, LV_FLEX_ALIGN_START, LV_FLEX_ALIGN_START, LV_FLEX_ALIGN_START);
-lv_label_set_text(ui_includedCycleLabel,"Ends 17/06/2026, 14:34 (6 days left)");
-lv_obj_set_style_text_color(ui_includedCycleLabel, lv_color_hex(0x808080), LV_PART_MAIN | LV_STATE_DEFAULT );
-lv_obj_set_style_text_opa(ui_includedCycleLabel, 255, LV_PART_MAIN| LV_STATE_DEFAULT);
-lv_obj_set_style_text_font(ui_includedCycleLabel, &lv_font_montserrat_14, LV_PART_MAIN| LV_STATE_DEFAULT);
-
-ui_paidTitleLabel = lv_label_create(ui_Screen);
-lv_obj_set_width( ui_paidTitleLabel, LV_SIZE_CONTENT);  /// 1
-lv_obj_set_height( ui_paidTitleLabel, LV_SIZE_CONTENT);   /// 1
-lv_obj_set_x( ui_paidTitleLabel, -113 );
-lv_obj_set_y( ui_paidTitleLabel, 15 );
-lv_obj_set_align( ui_paidTitleLabel, LV_ALIGN_CENTER );
-lv_obj_set_flex_flow(ui_paidTitleLabel,LV_FLEX_FLOW_ROW);
-lv_obj_set_flex_align(ui_paidTitleLabel, LV_FLEX_ALIGN_START, LV_FLEX_ALIGN_START, LV_FLEX_ALIGN_START);
-lv_label_set_text(ui_paidTitleLabel,"Paid Usage");
-lv_obj_set_style_text_color(ui_paidTitleLabel, lv_color_hex(0xFFFFFF), LV_PART_MAIN | LV_STATE_DEFAULT );
-lv_obj_set_style_text_opa(ui_paidTitleLabel, 255, LV_PART_MAIN| LV_STATE_DEFAULT);
-lv_obj_set_style_text_font(ui_paidTitleLabel, &lv_font_montserrat_14, LV_PART_MAIN| LV_STATE_DEFAULT);
-
-ui_paidUsageBar = lv_bar_create(ui_Screen);
-lv_bar_set_value(ui_paidUsageBar,25,LV_ANIM_OFF);
-lv_bar_set_start_value(ui_paidUsageBar, 0, LV_ANIM_OFF);
-lv_obj_set_width( ui_paidUsageBar, 303);
-lv_obj_set_height( ui_paidUsageBar, 10);
-lv_obj_set_x( ui_paidUsageBar, -2 );
-lv_obj_set_y( ui_paidUsageBar, 36 );
-lv_obj_set_align( ui_paidUsageBar, LV_ALIGN_CENTER );
-lv_obj_set_flex_flow(ui_paidUsageBar,LV_FLEX_FLOW_ROW);
-lv_obj_set_flex_align(ui_paidUsageBar, LV_FLEX_ALIGN_START, LV_FLEX_ALIGN_START, LV_FLEX_ALIGN_START);
-lv_obj_set_style_bg_color(ui_paidUsageBar, lv_color_hex(0x0F1F12), LV_PART_MAIN | LV_STATE_DEFAULT );
-lv_obj_set_style_bg_opa(ui_paidUsageBar, 255, LV_PART_MAIN| LV_STATE_DEFAULT);
-
-lv_obj_set_style_bg_color(ui_paidUsageBar, lv_color_hex(0x4ADE80), LV_PART_INDICATOR | LV_STATE_DEFAULT );
-lv_obj_set_style_bg_opa(ui_paidUsageBar, 255, LV_PART_INDICATOR| LV_STATE_DEFAULT);
-
-ui_paidAmountLabel = lv_label_create(ui_Screen);
-lv_obj_set_width( ui_paidAmountLabel, LV_SIZE_CONTENT);  /// 1
-lv_obj_set_height( ui_paidAmountLabel, LV_SIZE_CONTENT);   /// 1
-lv_obj_set_x( ui_paidAmountLabel, -22 );
-lv_obj_set_y( ui_paidAmountLabel, 60 );
-lv_obj_set_align( ui_paidAmountLabel, LV_ALIGN_CENTER );
-lv_obj_set_flex_flow(ui_paidAmountLabel,LV_FLEX_FLOW_ROW);
-lv_obj_set_flex_align(ui_paidAmountLabel, LV_FLEX_ALIGN_START, LV_FLEX_ALIGN_START, LV_FLEX_ALIGN_START);
-lv_label_set_text(ui_paidAmountLabel,"$70.5  /  $150 (hard limit) (51%)");
-lv_obj_set_style_text_color(ui_paidAmountLabel, lv_color_hex(0x808080), LV_PART_MAIN | LV_STATE_DEFAULT );
-lv_obj_set_style_text_opa(ui_paidAmountLabel, 255, LV_PART_MAIN| LV_STATE_DEFAULT);
-lv_obj_set_style_text_font(ui_paidAmountLabel, &lv_font_montserrat_14, LV_PART_MAIN| LV_STATE_DEFAULT);
-
+static void style_screen_dark(lv_obj_t *obj) {
+  lv_obj_set_style_bg_color(obj, disp_color(0x1A1A1A), LV_PART_MAIN | LV_STATE_DEFAULT);
+  lv_obj_set_style_bg_opa(obj, LV_OPA_COVER, LV_PART_MAIN | LV_STATE_DEFAULT);
+  lv_obj_set_style_border_width(obj, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
 }
 
-void ui_Screen_screen_destroy(void)
-{
-   if (ui_Screen) lv_obj_del(ui_Screen);
+static void style_title_label(lv_obj_t *obj) {
+  lv_obj_set_style_text_color(obj, disp_color(0xFFFFFF), LV_PART_MAIN | LV_STATE_DEFAULT);
+  lv_obj_set_style_text_opa(obj, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
+  lv_obj_set_style_text_font(obj, &lv_font_montserrat_14, LV_PART_MAIN | LV_STATE_DEFAULT);
+}
 
-// NULL screen variables
-ui_Screen= NULL;
-ui_includedTitleLabel= NULL;
-ui_includedUsageBar= NULL;
-ui_includedAmountLabel= NULL;
-ui_includedCycleLabel= NULL;
-ui_paidTitleLabel= NULL;
-ui_paidUsageBar= NULL;
-ui_paidAmountLabel= NULL;
+static void style_detail_label(lv_obj_t *obj) {
+  lv_obj_set_style_text_color(obj, disp_color(0x808080), LV_PART_MAIN | LV_STATE_DEFAULT);
+  lv_obj_set_style_text_opa(obj, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
+  lv_obj_set_style_text_font(obj, &lv_font_montserrat_14, LV_PART_MAIN | LV_STATE_DEFAULT);
+}
 
+void ui_Screen_screen_init(void) {
+  ui_Screen = lv_obj_create(NULL);
+  lv_obj_clear_flag(ui_Screen, LV_OBJ_FLAG_SCROLLABLE);
+  lv_obj_set_size(ui_Screen, LCD_WIDTH, LCD_HEIGHT);
+  style_screen_dark(ui_Screen);
+  lv_obj_set_flex_flow(ui_Screen, LV_FLEX_FLOW_COLUMN);
+  lv_obj_set_flex_align(ui_Screen, LV_FLEX_ALIGN_START, LV_FLEX_ALIGN_START, LV_FLEX_ALIGN_START);
+  lv_obj_set_style_pad_left(ui_Screen, 8, LV_PART_MAIN | LV_STATE_DEFAULT);
+  lv_obj_set_style_pad_right(ui_Screen, 8, LV_PART_MAIN | LV_STATE_DEFAULT);
+  lv_obj_set_style_pad_top(ui_Screen, 6, LV_PART_MAIN | LV_STATE_DEFAULT);
+  lv_obj_set_style_pad_bottom(ui_Screen, 6, LV_PART_MAIN | LV_STATE_DEFAULT);
+  lv_obj_set_style_pad_row(ui_Screen, 2, LV_PART_MAIN | LV_STATE_DEFAULT);
+
+  ui_includedTitleLabel = lv_label_create(ui_Screen);
+  lv_obj_set_width(ui_includedTitleLabel, LV_SIZE_CONTENT);
+  lv_obj_set_height(ui_includedTitleLabel, LV_SIZE_CONTENT);
+  lv_label_set_text(ui_includedTitleLabel, "Included Usage");
+  style_title_label(ui_includedTitleLabel);
+
+  ui_includedUsageBar = lv_bar_create(ui_Screen);
+  lv_bar_set_value(ui_includedUsageBar, 25, LV_ANIM_OFF);
+  lv_bar_set_start_value(ui_includedUsageBar, 0, LV_ANIM_OFF);
+  lv_obj_set_width(ui_includedUsageBar, LV_PCT(100));
+  lv_obj_set_height(ui_includedUsageBar, 8);
+  lv_obj_set_style_bg_color(ui_includedUsageBar, disp_color(0x2A2A2A), LV_PART_MAIN | LV_STATE_DEFAULT);
+  lv_obj_set_style_bg_opa(ui_includedUsageBar, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
+  lv_obj_set_style_radius(ui_includedUsageBar, 4, LV_PART_MAIN | LV_STATE_DEFAULT);
+  lv_obj_set_style_bg_color(ui_includedUsageBar, disp_color(0x3B82F6), LV_PART_INDICATOR | LV_STATE_DEFAULT);
+  lv_obj_set_style_bg_opa(ui_includedUsageBar, 255, LV_PART_INDICATOR | LV_STATE_DEFAULT);
+  lv_obj_set_style_radius(ui_includedUsageBar, 4, LV_PART_INDICATOR | LV_STATE_DEFAULT);
+
+  ui_includedAmountLabel = lv_label_create(ui_Screen);
+  lv_obj_set_width(ui_includedAmountLabel, LV_PCT(100));
+  lv_obj_set_height(ui_includedAmountLabel, LV_SIZE_CONTENT);
+  lv_label_set_text(ui_includedAmountLabel, "$100  /  $500 base (14%)");
+  style_detail_label(ui_includedAmountLabel);
+
+  ui_includedCycleLabel = lv_label_create(ui_Screen);
+  lv_obj_set_width(ui_includedCycleLabel, LV_PCT(100));
+  lv_obj_set_height(ui_includedCycleLabel, LV_SIZE_CONTENT);
+  lv_label_set_text(ui_includedCycleLabel, "Ends 17/06/2026, 14:34 (6 days left)");
+  style_detail_label(ui_includedCycleLabel);
+
+  ui_paidTitleLabel = lv_label_create(ui_Screen);
+  lv_obj_set_width(ui_paidTitleLabel, LV_SIZE_CONTENT);
+  lv_obj_set_height(ui_paidTitleLabel, LV_SIZE_CONTENT);
+  lv_obj_set_style_pad_top(ui_paidTitleLabel, 4, LV_PART_MAIN | LV_STATE_DEFAULT);
+  lv_label_set_text(ui_paidTitleLabel, "Paid Usage");
+  style_title_label(ui_paidTitleLabel);
+
+  ui_paidUsageBar = lv_bar_create(ui_Screen);
+  lv_bar_set_value(ui_paidUsageBar, 25, LV_ANIM_OFF);
+  lv_bar_set_start_value(ui_paidUsageBar, 0, LV_ANIM_OFF);
+  lv_obj_set_width(ui_paidUsageBar, LV_PCT(100));
+  lv_obj_set_height(ui_paidUsageBar, 8);
+  lv_obj_set_style_bg_color(ui_paidUsageBar, disp_color(0x2A2A2A), LV_PART_MAIN | LV_STATE_DEFAULT);
+  lv_obj_set_style_bg_opa(ui_paidUsageBar, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
+  lv_obj_set_style_radius(ui_paidUsageBar, 4, LV_PART_MAIN | LV_STATE_DEFAULT);
+  lv_obj_set_style_bg_color(ui_paidUsageBar, disp_color(0x4ADE80), LV_PART_INDICATOR | LV_STATE_DEFAULT);
+  lv_obj_set_style_bg_opa(ui_paidUsageBar, 255, LV_PART_INDICATOR | LV_STATE_DEFAULT);
+  lv_obj_set_style_radius(ui_paidUsageBar, 4, LV_PART_INDICATOR | LV_STATE_DEFAULT);
+
+  ui_paidAmountLabel = lv_label_create(ui_Screen);
+  lv_obj_set_width(ui_paidAmountLabel, LV_PCT(100));
+  lv_obj_set_height(ui_paidAmountLabel, LV_SIZE_CONTENT);
+  lv_label_set_text(ui_paidAmountLabel, "$70.5  /  $150 (hard limit) (51%)");
+  style_detail_label(ui_paidAmountLabel);
+}
+
+void ui_Screen_screen_destroy(void) {
+  if (ui_Screen) {
+    lv_obj_del(ui_Screen);
+  }
+
+  ui_Screen = NULL;
+  ui_includedTitleLabel = NULL;
+  ui_includedUsageBar = NULL;
+  ui_includedAmountLabel = NULL;
+  ui_includedCycleLabel = NULL;
+  ui_paidTitleLabel = NULL;
+  ui_paidUsageBar = NULL;
+  ui_paidAmountLabel = NULL;
 }
